@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedScan</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; min-height: 100vh; }
+        header { background: #0f3460; color: white; padding: 20px 40px; }
+        header h1 { font-size: 24px; }
+        header span { font-size: 13px; opacity: 0.7; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 24px; }
+        .upload-area { border: 2px dashed #0f3460; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; }
+        .upload-area p { color: #888; margin-top: 8px; font-size: 14px; }
+        .upload-icon { font-size: 48px; }
+        input[type="file"] { display: none; }
+        #preview { max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 16px; display: none; }
+        .btn { background: #0f3460; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; margin-top: 16px; }
+        .btn:hover { background: #16213e; }
+        .result { display: none; }
+        .result.show { display: block; }
+        .med-card { background: #f8f9fa; border-radius: 12px; padding: 24px; border-left: 4px solid #0f3460; }
+        .med-name { font-size: 28px; font-weight: bold; color: #0f3460; }
+        .med-name-ar { font-size: 20px; color: #555; margin-top: 4px; direction: rtl; }
+        .med-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+        .info-item { background: white; padding: 12px; border-radius: 8px; }
+        .info-label { font-size: 11px; color: #888; text-transform: uppercase; }
+        .info-value { font-size: 15px; font-weight: 600; color: #333; margin-top: 2px; }
+        .score { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+        .score-bar { flex: 1; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
+        .score-fill { height: 100%; background: #0f3460; border-radius: 4px; }
+        .score-text { font-size: 14px; font-weight: bold; color: #0f3460; }
+        .tag { display: inline-block; background: #e8f0fe; color: #0f3460; padding: 4px 10px; border-radius: 20px; font-size: 12px; margin: 2px; }
+        .error-card { background: #fff0f0; border-left: 4px solid #e74c3c; border-radius: 12px; padding: 20px; color: #e74c3c; }
+        .loading { text-align: center; padding: 20px; color: #888; display: none; }
+        .loading.show { display: block; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f0f4f8; border-top: 4px solid #0f3460; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 12px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        footer { text-align: center; padding: 20px; color: #aaa; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💊 MedScan</h1>
+        <span>Reconnaissance de médicaments par image</span>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2 style="margin-bottom:20px;color:#0f3460;">Scanner une boîte de médicament</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📷</div>
+                <p>Cliquez pour choisir une image</p>
+                <p>JPEG, PNG ou WEBP — Max 10MB</p>
+                <img id="preview" src="" alt="preview"/>
+            </div>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp"/>
+            <button class="btn" id="scanBtn">🔍 Scanner</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyse en cours...</p>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <footer>
+        Master IT — Université Mohammed V, Faculté des Sciences, Rabat<br/>
+        Supervised by: Abdelhak Mahmoudi
+    </footer>
+
+    <script>
+        let selectedFile = null;
+
+        document.getElementById('uploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            selectedFile = event.target.files[0];
+            if (!selectedFile) return;
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(selectedFile);
+            preview.style.display = 'block';
+        });
+
+        document.getElementById('scanBtn').addEventListener('click', async function() {
+            if (!selectedFile) {
+                alert('Veuillez choisir une image!');
+                return;
+            }
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('result').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/recognize', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                displayResult(data);
+            } catch (err) {
+                displayError("Impossible de contacter l'API.");
+            }
+
+            document.getElementById('loading').classList.remove('show');
+        });
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            if (data.best_match) {
+                const score = Math.round(data.best_match.confidence_score * 100);
+                const tags = data.ocr_result.raw_text.map(t => `<span class="tag">${t}</span>`).join('');
+                resultDiv.innerHTML = `
+                    <div class="card">
+                        <div class="med-card">
+                            <div class="med-name">${data.best_match.name_fr}</div>
+                            <div class="med-name-ar">${data.best_match.name_ar}</div>
+                            <div class="med-info">
+                                <div class="info-item"><div class="info-label">Principe actif</div><div class="info-value">${data.best_match.active_ingredient}</div></div>
+                                <div class="info-item"><div class="info-label">Dosage</div><div class="info-value">${data.best_match.dosage}</div></div>
+                                <div class="info-item"><div class="info-label">Forme</div><div class="info-value">${data.best_match.form}</div></div>
+                                <div class="info-item"><div class="info-label">Laboratoire</div><div class="info-value">${data.best_match.lab}</div></div>
+                            </div>
+                            <div class="score">
+                                <div class="score-bar"><div class="score-fill" style="width:${score}%"></div></div>
+                                <div class="score-text">${score}%</div>
+                            </div>
+                        </div>
+                        <div class="texts-detected" style="margin-top:16px;">
+                            <h4 style="font-size:13px;color:#888;margin-bottom:8px;">TEXTE DÉTECTÉ</h4>
+                            ${tags}
+                        </div>
+                    </div>`;
+            } else {
+                resultDiv.innerHTML = `<div class="card"><div class="error-card">⚠️ ${data.message}</div></div>`;
+            }
+            resultDiv.classList.add('show');
+        }
+
+        function displayError(msg) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<div class="card"><div class="error-card">❌ ${msg}</div></div>`;
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>

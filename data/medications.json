@@ -1,0 +1,22 @@
+[
+  {"id": 1, "name_fr": "Doliprane", "name_ar": "دوليبران", "active_ingredient": "Paracétamol", "dosage": "1000mg", "form": "comprimé", "lab": "Sanofi"},
+  {"id": 2, "name_fr": "Amoxicilline", "name_ar": "أموكسيسيلين", "active_ingredient": "Amoxicilline", "dosage": "500mg", "form": "gélule", "lab": "Maphar"},
+  {"id": 3, "name_fr": "Ibuprofène", "name_ar": "إيبوبروفين", "active_ingredient": "Ibuprofène", "dosage": "400mg", "form": "comprimé", "lab": "Cooper Pharma"},
+  {"id": 4, "name_fr": "Augmentin", "name_ar": "أوغمنتين", "active_ingredient": "Amoxicilline + Acide clavulanique", "dosage": "1g", "form": "comprimé", "lab": "GSK"},
+  {"id": 5, "name_fr": "Voltarène", "name_ar": "فولتارين", "active_ingredient": "Diclofénac", "dosage": "50mg", "form": "comprimé", "lab": "Novartis"},
+  {"id": 6, "name_fr": "Spasfon", "name_ar": "سباسفون", "active_ingredient": "Phloroglucinol", "dosage": "80mg", "form": "comprimé", "lab": "Teva"},
+  {"id": 7, "name_fr": "Smecta", "name_ar": "سمكتا", "active_ingredient": "Diosmectite", "dosage": "3g", "form": "poudre", "lab": "Ipsen"},
+  {"id": 8, "name_fr": "Ventoline", "name_ar": "فانتولين", "active_ingredient": "Salbutamol", "dosage": "100mcg", "form": "spray", "lab": "GSK"},
+  {"id": 9, "name_fr": "Oméprazole", "name_ar": "أوميبرازول", "active_ingredient": "Oméprazole", "dosage": "20mg", "form": "gélule", "lab": "Zentiva"},
+  {"id": 10, "name_fr": "Metformine", "name_ar": "ميتفورمين", "active_ingredient": "Metformine", "dosage": "500mg", "form": "comprimé", "lab": "Maphar"},
+  {"id": 11, "name_fr": "Amlodipine", "name_ar": "أملوديبين", "active_ingredient": "Amlodipine", "dosage": "5mg", "form": "comprimé", "lab": "Pfizer"},
+  {"id": 12, "name_fr": "Atorvastatine", "name_ar": "أتورفاستاتين", "active_ingredient": "Atorvastatine", "dosage": "20mg", "form": "comprimé", "lab": "Pfizer"},
+  {"id": 13, "name_fr": "Azithromycine", "name_ar": "أزيثروميسين", "active_ingredient": "Azithromycine", "dosage": "500mg", "form": "comprimé", "lab": "Zentiva"},
+  {"id": 14, "name_fr": "Ciprofloxacine", "name_ar": "سيبروفلوكساسين", "active_ingredient": "Ciprofloxacine", "dosage": "500mg", "form": "comprimé", "lab": "Bayer"},
+  {"id": 15, "name_fr": "Loratadine", "name_ar": "لوراتادين", "active_ingredient": "Loratadine", "dosage": "10mg", "form": "comprimé", "lab": "Cooper Pharma"},
+  {"id": 16, "name_fr": "Tramadol", "name_ar": "ترامادول", "active_ingredient": "Tramadol", "dosage": "50mg", "form": "gélule", "lab": "Maphar"},
+  {"id": 17, "name_fr": "Prednisolone", "name_ar": "بريدنيزولون", "active_ingredient": "Prednisolone", "dosage": "20mg", "form": "comprimé", "lab": "Zentiva"},
+  {"id": 18, "name_fr": "Furosémide", "name_ar": "فوروسيميد", "active_ingredient": "Furosémide", "dosage": "40mg", "form": "comprimé", "lab": "Maphar"},
+  {"id": 19, "name_fr": "Metronidazole", "name_ar": "ميترونيدازول", "active_ingredient": "Metronidazole", "dosage": "500mg", "form": "comprimé", "lab": "Cooper Pharma"},
+  {"id": 20, "name_fr": "Cetirizine", "name_ar": "سيتيريزين", "active_ingredient": "Cetirizine", "dosage": "10mg", "form": "comprimé", "lab": "Zentiva"}
+]
