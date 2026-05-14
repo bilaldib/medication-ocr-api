@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+﻿from pydantic import BaseModel
 from typing import Optional
 
 class OCRResult(BaseModel):
@@ -14,6 +14,10 @@ class MedicationMatch(BaseModel):
     form: str
     lab: str
     confidence_score: float
+    indication: Optional[str] = None
+    contre_indication: Optional[str] = None
+    classe: Optional[str] = None
+    posologie: Optional[str] = None
 
 class RecognitionResponse(BaseModel):
     success: bool

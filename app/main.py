@@ -38,6 +38,19 @@ def get_medications():
         "medications": medications
     }
 
+@app.get("/medications/search")
+def search_medications(name: str):
+    results = [
+        med for med in medications
+        if name.lower() in med["name_fr"].lower()
+        or name.lower() in med["name_ar"]
+        or name.lower() in med["active_ingredient"].lower()
+        or name.lower() in med["classe"].lower()
+    ]
+    if not results:
+        return {"total": 0, "results": [], "message": f"Aucun médicament trouvé pour '{name}'"}
+    return {"total": len(results), "results": results}
+
 @app.post("/recognize", response_model=RecognitionResponse)
 async def recognize_medication(file: UploadFile = File(...)):
     if file.content_type not in ["image/jpeg", "image/png", "image/webp"]:

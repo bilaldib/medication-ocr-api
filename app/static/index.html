@@ -26,8 +26,18 @@
         .med-name-ar { font-size: 20px; color: #555; margin-top: 4px; direction: rtl; }
         .med-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
         .info-item { background: white; padding: 12px; border-radius: 8px; }
+        .info-item.full { grid-column: span 2; }
         .info-label { font-size: 11px; color: #888; text-transform: uppercase; }
         .info-value { font-size: 15px; font-weight: 600; color: #333; margin-top: 2px; }
+        .indication { background: #e8f5e9 !important; }
+        .indication .info-label { color: #2e7d32; }
+        .indication .info-value { color: #1b5e20; }
+        .contre { background: #fff3e0 !important; }
+        .contre .info-label { color: #e65100; }
+        .contre .info-value { color: #bf360c; }
+        .posologie { background: #e3f2fd !important; }
+        .posologie .info-label { color: #1565c0; }
+        .posologie .info-value { color: #0d47a1; }
         .score { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
         .score-bar { flex: 1; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
         .score-fill { height: 100%; background: #0f3460; border-radius: 4px; }
@@ -124,17 +134,46 @@
                             <div class="med-name">${data.best_match.name_fr}</div>
                             <div class="med-name-ar">${data.best_match.name_ar}</div>
                             <div class="med-info">
-                                <div class="info-item"><div class="info-label">Principe actif</div><div class="info-value">${data.best_match.active_ingredient}</div></div>
-                                <div class="info-item"><div class="info-label">Dosage</div><div class="info-value">${data.best_match.dosage}</div></div>
-                                <div class="info-item"><div class="info-label">Forme</div><div class="info-value">${data.best_match.form}</div></div>
-                                <div class="info-item"><div class="info-label">Laboratoire</div><div class="info-value">${data.best_match.lab}</div></div>
+                                <div class="info-item">
+                                    <div class="info-label">Principe actif</div>
+                                    <div class="info-value">${data.best_match.active_ingredient}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Dosage</div>
+                                    <div class="info-value">${data.best_match.dosage}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Forme</div>
+                                    <div class="info-value">${data.best_match.form}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Laboratoire</div>
+                                    <div class="info-value">${data.best_match.lab}</div>
+                                </div>
+                                ${data.best_match.indication ? `
+                                <div class="info-item full indication">
+                                    <div class="info-label">✅ Indication</div>
+                                    <div class="info-value">${data.best_match.indication}</div>
+                                </div>` : ''}
+                                ${data.best_match.contre_indication ? `
+                                <div class="info-item full contre">
+                                    <div class="info-label">⚠️ Contre-indication</div>
+                                    <div class="info-value">${data.best_match.contre_indication}</div>
+                                </div>` : ''}
+                                ${data.best_match.posologie ? `
+                                <div class="info-item full posologie">
+                                    <div class="info-label">💊 Posologie</div>
+                                    <div class="info-value">${data.best_match.posologie}</div>
+                                </div>` : ''}
                             </div>
                             <div class="score">
-                                <div class="score-bar"><div class="score-fill" style="width:${score}%"></div></div>
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width:${score}%"></div>
+                                </div>
                                 <div class="score-text">${score}%</div>
                             </div>
                         </div>
-                        <div class="texts-detected" style="margin-top:16px;">
+                        <div style="margin-top:16px;">
                             <h4 style="font-size:13px;color:#888;margin-bottom:8px;">TEXTE DÉTECTÉ</h4>
                             ${tags}
                         </div>
