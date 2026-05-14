@@ -13,7 +13,7 @@ API intelligente pour la reconnaissance de médicaments à partir d'images de bo
 
 ### 1. Cloner le projet
 ```bash
-git clone https://github.com/votre-username/medication-ocr-api.git
+git clone https://github.com/bilaldib/medication-ocr-api.git
 cd medication-ocr-api
 ```
 
@@ -36,20 +36,26 @@ uvicorn app.main:app --reload
 
 L'API sera disponible sur : http://127.0.0.1:8000
 
+## Interface Web
+
+http://127.0.0.1:8000/ui
+
 ## Documentation interactive
 
 http://127.0.0.1:8000/docs
 
-## Endpoint principal
+## Endpoints
 
-### POST /recognize
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| GET | / | Health check |
+| GET | /medications | Liste des 20 médicaments |
+| GET | /medications/search?name=doli | Recherche par nom ou classe |
+| GET | /ui | Interface web MedScan |
+| POST | /recognize | Reconnaissance par image |
 
-Envoie une image d'une boîte de médicament et reçois le médicament détecté.
+## Exemple de réponse
 
-**Paramètres:**
-- `file` — Image (JPEG, PNG, WEBP)
-
-**Réponse:**
 ```json
 {
   "success": true,
@@ -63,7 +69,10 @@ Envoie une image d'une boîte de médicament et reçois le médicament détecté
     "active_ingredient": "Paracétamol",
     "dosage": "1000mg",
     "lab": "Sanofi",
-    "confidence_score": 0.57
+    "indication": "Douleurs et fièvre",
+    "contre_indication": "Insuffisance hépatique grave",
+    "posologie": "1 comprimé toutes les 6h, max 4/jour",
+    "confidence_score": 1.0
   },
   "message": "Médicament détecté: Doliprane"
 }
