@@ -7,7 +7,8 @@ AI-powered system for recognizing medication names from images using OCR and Com
 ## 👥 Project Team
 
 - Bilal Dib  
-- Doha El Badra  
+- Doha ElBadra
+- dohadoha
 
 ---
 
