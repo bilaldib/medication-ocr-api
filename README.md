@@ -18,7 +18,7 @@ AI-powered system for recognizing medication boxes using OCR, Computer Vision an
 | Name | Role |
 |------|------|
 | Pr. Abdelhak Mahmoudi | Supervisor |
-| Pr. Yassine Lehmiani | Co-supervisor |
+| Dr. Yassine Lehmiani | Co-supervisor |
 
 ---
 
