@@ -9,7 +9,7 @@ AI-powered system for recognizing medication boxes using OCR, Computer Vision an
 | Name | GitHub |
 |------|--------|
 | Bilal Dib | [@bilaldib](https://github.com/bilaldib) |
-| Doha ElBadra | [@dohadoha](https://github.com/dohadoha) |
+| Doha ElBadra | [@doha-elbadra](https://github.com/doha-elbadra) |
 
 ---
 
@@ -178,15 +178,17 @@ curl http://127.0.0.1:8000/medications/search?name=amoxil
 medication-ocr-api/
 ├── app/
 │   ├── main.py        ← FastAPI + endpoints + Lifespan
-│   ├── ocr.py         ← PaddleOCR + preprocessing
+│   ├── ocr.py         ← PaddleOCR + preprocessing image
 │   ├── matcher.py     ← RapidFuzz fuzzy matching
 │   ├── models.py      ← Pydantic v2 schemas
 │   └── static/
-│       └── index.html ← Web interface
+│       └── index.html ← Interface web
 ├── data/
 │   ├── database.py    ← SQLAlchemy async engine
-│   └── models.py      ← Database ORM models
+│   └── models.py      ← ORM models
 ├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
 └── .env
 ```
 
