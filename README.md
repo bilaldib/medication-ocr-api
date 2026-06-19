@@ -1,30 +1,30 @@
 # 💊 Medication Box Recognition API
 
-AI-powered system for recognizing medication boxes using OCR, Computer Vision and Fuzzy Matching.
+AI-powered system for recognizing medication boxes using OCR, Computer Vision and Fuzzy Matching against the CNOPS database.
 
 ---
 
 ## 👥 Project Team
 
-| Name | Role |
-|------|------|
-| Bilal Dib | Développeur principal |
-| Doha ElBadra | Développeur principal |
+| Name | GitHub |
+|------|--------|
+| Bilal Dib | [@bilaldib](https://github.com/bilaldib) |
+| Doha ElBadra | [@dohadoha](https://github.com/dohadoha) |
 
 ---
 
-## 🎓 Academic Supervisors
+## 🎓 Academic Supervisor
 
 | Name | Role |
 |------|------|
-| Pr. Abdelhak Mahmoudi | Encadrant |
-| Pr. Yassine Lehmiani | Co-encadrant |
+| Pr. Abdelhak Mahmoudi | Supervisor |
+| Pr. Yassine Lehmiani | Co-supervisor |
 
 ---
 
 ## 📌 Project Overview
 
-This project uses **PaddleOCR** and **Computer Vision** techniques to extract and recognize medication names from medication box images. The system identifies medications from the **CNOPS database (2834 medications)** and returns detailed information including price, dosage, and reimbursement rate.
+This project uses **PaddleOCR** and **Computer Vision** to extract and recognize medication names from medication box images. The system identifies medications from the **CNOPS database (2834 medications)** and returns detailed information including price, dosage, and reimbursement rate.
 
 ---
 
@@ -32,14 +32,14 @@ This project uses **PaddleOCR** and **Computer Vision** techniques to extract an
 
 | Technology | Role |
 |-----------|------|
-| Python 3.9 | Langage principal |
-| PaddleOCR 2.7.3 | OCR bilingue (Arabe + Français) |
-| OpenCV | Preprocessing des images |
-| FastAPI | API REST |
+| Python 3.9 | Main language |
+| PaddleOCR 2.7.3 | Bilingual OCR (Arabic + French) |
+| OpenCV | Image preprocessing |
+| FastAPI | REST API |
 | RapidFuzz | Fuzzy Matching |
-| Pydantic v2 | Validation des données |
-| PostgreSQL | Base de données |
-| SQLAlchemy | ORM asynchrone |
+| Pydantic v2 | Data validation |
+| PostgreSQL | Database |
+| SQLAlchemy | Async ORM |
 
 ---
 
@@ -47,18 +47,18 @@ This project uses **PaddleOCR** and **Computer Vision** techniques to extract an
 
 - 📸 Upload medication box image
 - 🔍 Bilingual OCR (Arabic + French)
-- 🧠 Fuzzy matching with CNOPS database
+- 🧠 Fuzzy matching with CNOPS database (2834 medications)
 - 💰 Price and reimbursement rate
 - ✅ Confidence levels (recognized / probable / warning)
 - 🏥 Health endpoint for API monitoring
-- 📖 Swagger documentation
+- 📖 Swagger auto-documentation
 
 ---
 
 ## 🧠 How It Works
 
 1. Image uploaded via `POST /recognize`
-2. Preprocessing: resize → CLAHE → deskew → binarisation Otsu
+2. Preprocessing: resize → CLAHE → deskew → Otsu binarisation
 3. PaddleOCR extracts text (Arabic pass + French pass)
 4. RapidFuzz compares with 2834 CNOPS medications
 5. Returns best match with confidence score
@@ -79,7 +79,7 @@ venv\Scripts\activate  # Windows
 # Install dependencies
 pip install -r requirements.txt
 
-# Configure database
+# Configure environment
 cp .env.example .env
 # Edit .env with your PostgreSQL credentials
 
@@ -91,21 +91,21 @@ uvicorn app.main:app --reload
 
 ## 🧪 Testing
 
-### Test via Swagger UI
+### 1️⃣ Test via Swagger UI
+Open your browser:
 ```
 http://127.0.0.1:8000/docs
 ```
 
-### Test via Web Interface
+### 2️⃣ Test via Web Interface
 ```
 http://127.0.0.1:8000/ui
 ```
 
-### Test Health Endpoint
+### 3️⃣ Test Health Endpoint
 ```bash
 curl http://127.0.0.1:8000/health
 ```
-
 Expected response:
 ```json
 {
@@ -118,25 +118,56 @@ Expected response:
 }
 ```
 
-### Test Recognition
+### 4️⃣ Test Recognition — SMECTA
 ```bash
 curl -X POST http://127.0.0.1:8000/recognize \
-  -F "file=@image.jpg"
+  -F "file=@smecta.jpg"
 ```
-
 Expected response:
 ```json
 {
   "success": true,
   "best_match": {
     "name_fr": "SMECTA",
+    "name_ar": "سميكتا",
     "active_ingredient": "DIOSMECTITE",
     "dosage": "3G",
+    "forme": "POUDRE POUR SUSPENSION BUVABLE",
     "ppv": "52.4",
     "taux_remboursement": "0%",
-    "confidence_level": "recognized"
+    "confidence_level": "recognized",
+    "confidence_score": 1.0
   }
 }
+```
+
+### 5️⃣ Test Recognition — AMOXIL
+```bash
+curl -X POST http://127.0.0.1:8000/recognize \
+  -F "file=@amoxil.jpg"
+```
+Expected response:
+```json
+{
+  "success": true,
+  "best_match": {
+    "name_fr": "AMOXIL 500MG",
+    "name_ar": "أموكسيل 500 مج",
+    "active_ingredient": "AMOXICILLINE",
+    "dosage": "500",
+    "unite_dosage": "MG",
+    "forme": "GELULE",
+    "ppv": "28.5",
+    "taux_remboursement": "70%",
+    "confidence_level": "recognized",
+    "confidence_score": 0.95
+  }
+}
+```
+
+### 6️⃣ Test Search Endpoint
+```bash
+curl http://127.0.0.1:8000/medications/search?name=amoxil
 ```
 
 ---
@@ -148,13 +179,13 @@ medication-ocr-api/
 ├── app/
 │   ├── main.py        ← FastAPI + endpoints + Lifespan
 │   ├── ocr.py         ← PaddleOCR + preprocessing
-│   ├── matcher.py     ← RapidFuzz matching
-│   ├── models.py      ← Pydantic schemas
+│   ├── matcher.py     ← RapidFuzz fuzzy matching
+│   ├── models.py      ← Pydantic v2 schemas
 │   └── static/
 │       └── index.html ← Web interface
 ├── data/
-│   ├── database.py    ← SQLAlchemy models
-│   └── models.py      ← DB models
+│   ├── database.py    ← SQLAlchemy async engine
+│   └── models.py      ← Database ORM models
 ├── requirements.txt
 └── .env
 ```
@@ -165,15 +196,15 @@ medication-ocr-api/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/` | API info |
-| GET | `/health` | API status |
+| GET | `/` | API information |
+| GET | `/health` | API health status |
 | GET | `/ui` | Web interface |
 | GET | `/docs` | Swagger UI |
-| POST | `/recognize` | Recognize medication |
+| POST | `/recognize` | Recognize medication from image |
 | GET | `/medications` | List all medications |
-| GET | `/medications/search` | Search medication |
+| GET | `/medications/search` | Search medication by name |
 
 ---
 
-*Master IT — Faculté des Sciences, Rabat — 2025/2026*
+*Master IT — Faculté des Sciences, Rabat — 2025/2026*bat — 2025/2026*
 python app/main.py
