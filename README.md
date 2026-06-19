@@ -194,38 +194,12 @@ medication-ocr-api/
 ├── docker-compose.yml
 └── .env
 ```
-🚀 Démarrage rapide
-
-Prérequis
-
-
-Docker + Docker Compose
-(optionnel) Python 3.10+
-Avec Docker (recommandé)
-
-# 1. Cloner le projet
-git clone https://github.com/ton-username/medication-ocr-api.git
-cd medication-ocr-api
-
-# 2. Copier les variables d'environnement
-cp .env.example .env
-# Éditer .env avec tes valeurs
-
-# 3. Lancer l'API + la base de données
+🎯 Quick Start Summary
+🐳 Docker
 docker compose up --build -d
-
-# 4. Ouvrir l'interface web
-open http://localhost:5000
-
-En local (sans Docker)
-
-python -m venv venv
-source venv/bin/activate        # Windows : venv\Scripts\activate
-
+💻 Local
 pip install -r requirements.txt
-
 uvicorn app.main:app --reload --port 5000
----
 
 ## 📊 API Endpoints
 
