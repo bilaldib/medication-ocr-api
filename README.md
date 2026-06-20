@@ -180,18 +180,20 @@ curl http://127.0.0.1:8000/medications/search?name=amoxil
 ```
 medication-ocr-api/
 ├── app/
-│   ├── main.py        ← FastAPI + endpoints + Lifespan
-│   ├── ocr.py         ← PaddleOCR + preprocessing image
-│   ├── matcher.py     ← RapidFuzz fuzzy matching
-│   ├── models.py      ← Pydantic v2 schemas
+│   ├── main.py
+│   ├── ocr.py
+│   ├── matcher.py
+│   ├── models.py
 │   └── static/
-│       └── index.html ← Interface web
+│       └── index.html
 ├── data/
-│   ├── database.py    ← SQLAlchemy async engine
-│   └── models.py      ← ORM models
+│   ├── database.py
+│   └── models.py
+├── dump_utf8.sql      ← Nouveau fichier SQL (base de données CNOPS)
 ├── requirements.txt
-├── Dockerfile         ←  Builds the application (Python + dependencies)
-├── docker-compose.yml ← Runs the application and database together
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
 └── .env
 ```
 🎯 Quick Start Summary
