@@ -190,16 +190,19 @@ medication-ocr-api/
 │   ├── database.py    ← SQLAlchemy async engine
 │   └── models.py      ← ORM models
 ├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
+├── Dockerfile         ←  Builds the application (Python + dependencies)
+├── docker-compose.yml ← Runs the application and database together
 └── .env
 ```
 🎯 Quick Start Summary
 🐳 Docker
-docker compose up --build -d
+```bash
+docker compose up --build 
+docker cp dump_utf8.sql medicaments_db:/dump_utf8.sql
+docker exec -it medicaments_db psql -U postgres -d medicaments_db -f /dump_utf8.sql
 💻 Local
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 5000
+uvicorn app.main:app --reload --port 8000
 
 ## 📊 API Endpoints
 
